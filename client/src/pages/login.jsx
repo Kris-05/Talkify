@@ -48,7 +48,7 @@ function login() {
 
           await router.push("/onboarding");
         } else {
-          const { id, name, email, profilePic, status } = data;
+          const { id, name, email, profilePic, status } = data.data;
 
           dispatch({
             type: reducerCases.SET_USER_INFO,
