@@ -129,3 +129,29 @@ export const loginUser = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getUserInfo = async (req, res, next) => {
+  try {
+    const prisma = getPrismaClient();
+    const user = await prisma.user.findUnique({
+      where: { id: req.userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const { password: _, ...userWithoutPassword } = user;
+    return res.status(200).json({
+      success: true,
+      data: userWithoutPassword,
+      message: "User info retrieved successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error");
+  }
+};

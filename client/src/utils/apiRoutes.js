@@ -7,3 +7,4 @@ export const CHECK_USER = `${AUTH_ROUTE}/check-user`;
 
 export const LOGIN_ROUTE = `${AUTH_ROUTE}/login`;
 export const SIGNUP_ROUTE = `${AUTH_ROUTE}/signup`;
+export const GET_USER_INFO = `${AUTH_ROUTE}/userinfo`;
