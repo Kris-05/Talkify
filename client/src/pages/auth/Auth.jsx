@@ -4,23 +4,78 @@ import Victory from "/victory.svg";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/apiRoutes";
+import { toast } from "sonner";
+import { apiClient } from "@/lib/apiClient";
+import { useNavigate } from "react-router-dom";
+import { useAppStore } from "@/store";
 
 const Auth = () => {
+  const navigate = useNavigate();
+  const { setUserInfo } = useAppStore();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const validateAuth = (type) => {
+    if (!email) {
+      toast.error("Email is required");
+      return false;
+    }
+    if (!password) {
+      toast.error("Password is required");
+      return false;
+    }
+    if (type === "register" && password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return false;
+    }
+    return true;
+  };
+
   const handleLogin = async () => {
-    // console.log("Email:", email, "Password:", password);
-    setEmail("");
-    setPassword("");
+    try {
+      if (validateAuth("login")) {
+        const res = await apiClient.post(
+          LOGIN_ROUTE,
+          { email: email, password: password },
+          { withCredentials: true }
+        );
+
+        const { success, data } = res.data;
+        if (success) {
+          setUserInfo(data);
+          toast.success("Login successful");
+          navigate(data.profileSetup ? "/chat" : "/profile");
+        }
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Login failed");
+      console.log(err.response?.data);
+    }
   };
 
   const handleRegister = async () => {
-    // console.log("Email:", email, "Password:", password, "Confirm Password:", confirmPassword);
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    try {
+      if (validateAuth("register")) {
+        const res = await apiClient.post(
+          SIGNUP_ROUTE,
+          { email: email, password: password },
+          { withCredentials: true }
+        );
+
+        const { success, data } = res.data;
+        if (success) {
+          setUserInfo(data);
+          toast.success("Registration successful");
+          navigate("/profile");
+        }
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Registration failed");
+      console.log(err.response?.data);
+    }
   };
 
   return (
@@ -29,15 +84,21 @@ const Auth = () => {
         <div className="flex flex-col gap-10 items-center justify-center">
           <div className="flex items-center justify-center flex-col">
             <div className="flex items-center justify-center">
-              <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold">Welcome</h1>
-              <img src={Victory} alt="Victory" className="h-[50px] md:h-[75px] lg:h-[100px]" />
+              <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold">
+                Welcome
+              </h1>
+              <img
+                src={Victory}
+                alt="Victory"
+                className="h-[50px] md:h-[75px] lg:h-[100px]"
+              />
             </div>
             <p className="text-sm md:text-xl lg:text-2xl font-medium text-center">
               Fill in the details to get started!
             </p>
           </div>
           <div className="flex items-center justify-center w-full">
-            <Tabs className="w-3/4">
+            <Tabs className="w-3/4" defaultValue="login">
               <TabsList className="bg-transparent rounded-none w-full">
                 <TabsTrigger
                   value="login"
