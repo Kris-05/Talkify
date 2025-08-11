@@ -155,3 +155,35 @@ export const getUserInfo = async (req, res, next) => {
     return res.status(500).send("Internal server error");
   }
 };
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    const { name, about, image } = req.body;
+    if (!name || !about || !image) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, about, and image are required",
+      });
+    }
+
+    const prisma = getPrismaClient();
+    const updatedUser = await prisma.user.update({
+      where: { id: req.userId },
+      data: {
+        name,
+        about,
+        profilePic : image,
+        profileSetup: true,
+      },
+    });
+
+    const { password: _, ...userWithoutPassword } = updatedUser;
+    return res.status(200).json({
+      success: true,
+      data: userWithoutPassword,
+      message: "Profile updated successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+}

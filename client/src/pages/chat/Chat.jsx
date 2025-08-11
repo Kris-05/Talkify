@@ -6,6 +6,8 @@ import { toast } from 'sonner';
 const Chat = () => {
 
   const { userInfo } = useAppStore();
+  console.log(userInfo);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
