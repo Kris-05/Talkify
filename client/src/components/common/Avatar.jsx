@@ -96,12 +96,12 @@ const Avatar = ({ type, image, setImage }) => {
       <div className="flex items-center justify-center">
         {type === "sm" && (
           <div className="relative h-10 w-10">
-            <img src={image} alt="avatar" className="rounded-full" fill />
+            <img src={image} alt="avatar" className="rounded-full h-full" fill="true" />
           </div>
         )}
         {type === "lg" && (
           <div className="relative h-14 w-14">
-            <img src={image} alt="avatar" className="rounded-full" fill />
+            <img src={image} alt="avatar" className="rounded-full h-full" fill="true" />
           </div>
         )}
         {type === "xl" && (

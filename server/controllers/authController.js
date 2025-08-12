@@ -187,3 +187,25 @@ export const updateProfile = async (req, res, next) => {
     next(err);
   }
 }
+
+export const logoutUser = async (req, res, next) => {
+  try {
+    res.clearCookie("jwt", {
+      secure: true,
+      sameSite: "none",
+    });
+    
+    // res.cookie("jwt", "", {
+    //   maxAge: 0,
+    //   secure: true,
+    //   sameSite: "none",
+    // });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
