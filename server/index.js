@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import setupSocket from './socket.js';
 
 // env variables
 dotenv.config();
@@ -38,6 +39,8 @@ app.use("/api/contacts", contactRoutes);
 // }
 
 // start the server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+setupSocket(server)
