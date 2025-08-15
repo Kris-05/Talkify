@@ -7,15 +7,15 @@ import { useAppStore } from "@/store";
 import { RiCloseFill } from "react-icons/ri";
 
 const ChatHeader = () => {
-  const { userInfo } = useAppStore();
+  const { selectedChatData ,selectedChatType , closeChat } = useAppStore();
 
   return (
     <div className="h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-3 md:px-6 lg:px-8 shadow-md">
       <div className="flex gap-4 items-center">
-        <Avatar type="sm" image={userInfo?.profilePic} />
+        <Avatar type="sm" image={selectedChatData?.profilePic} />
         <div className="flex flex-col">
           <span className="text-white font-semibold text-sm md:text-base">
-            {userInfo?.name}
+            {selectedChatData?.name}
           </span>
           <span className="text-green-400 text-xs">online</span>
         </div>
@@ -24,7 +24,7 @@ const ChatHeader = () => {
         <MdCall className="text-gray-400 hover:text-white cursor-pointer text-xl transition-colors" />
         <IoVideocam className="text-gray-400 hover:text-white cursor-pointer text-xl transition-colors" />
         <BiSearchAlt2 className="text-gray-400 hover:text-white cursor-pointer text-xl transition-colors" />
-        <button className="text-gray-400 hover:text-red-500 focus:outline-none transition-colors text-2xl">
+        <button onClick={closeChat} className="text-gray-400 hover:text-red-500 focus:outline-none transition-colors text-2xl">
           <RiCloseFill />
         </button>
       </div>

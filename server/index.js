@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 // env variables
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api/contacts", contactRoutes);
 
 // Prisma will normally connect lazily (only when the first query runs)
 // for manuall connection ->

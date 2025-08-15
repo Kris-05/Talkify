@@ -76,7 +76,7 @@ const Profile = () => {
           <IoArrowBack onClick={handleNavigate} className="text-2xl lg:text-4xl text-white/90 cursor-pointer" />
           <h2 className="text-2xl">Create your profile</h2>
         </div>
-        <div className="flex gap-6">
+        <div className="flex flex-col md:flex-row gap-6">
           <div>
             <Avatar type="xl" image={image} setImage={setImage} />
           </div>

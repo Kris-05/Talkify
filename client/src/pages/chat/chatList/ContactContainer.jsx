@@ -1,5 +1,6 @@
 import Title from "@/components/common/Title";
 import ChatListHeader from "./ChatListHeader";
+import NewDM from "./NewDM";
 
 const ContactContainer = () => {
   return (
@@ -8,6 +9,7 @@ const ContactContainer = () => {
       <div className="my-5">
         <div className="flex items-center justify-between pr-10">
           <Title text={"Direct Messages"} />
+          <NewDM/>
         </div>
       </div>
       <div className="my-5">
