@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 import ReactDOM from 'react-dom';
 
-function PhotoPicker({ onChange }) {
-
+const PhotoPicker = ({ onChange }) => {
   const component = (
     <input type="file" hidden id="photo-picker" onChange={onChange}/>
   );
@@ -13,4 +12,4 @@ function PhotoPicker({ onChange }) {
   );
 }
 
-export default PhotoPicker;
+export default PhotoPicker

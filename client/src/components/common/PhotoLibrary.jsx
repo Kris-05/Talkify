@@ -1,8 +1,7 @@
-import Image from "next/image";
-import React from "react";
+import React from 'react'
 import { IoClose } from "react-icons/io5";
 
-function PhotoLibrary({ setImage, hidePhotoLibrary }) {
+const PhotoLibrary = ({ setImage, hidePhotoLibrary }) => {
 
   const images = [
     "/avatars/1.png",
@@ -17,7 +16,7 @@ function PhotoLibrary({ setImage, hidePhotoLibrary }) {
   ];
 
   return (
-    <div className="fixed top-0 left-0 max-h-[100vh] max-w-[100vw] h-full w-full flex justify-center items-center">
+    <div className="z-10 fixed top-0 left-0 max-h-[100vh] max-w-[100vw] h-full w-full flex justify-center items-center">
       <div className="h-max bg-gray-900 gap-6 rounded-lg p-4">
         <div className="cursor-pointer flex items-end justify-end" onClick={() => hidePhotoLibrary(false)}>
           <IoClose className="h-10 w-10 cursor-pointer"/>
@@ -25,12 +24,12 @@ function PhotoLibrary({ setImage, hidePhotoLibrary }) {
         <div className="grid grid-cols-3 justify-center items-center gap-16 p-20 w-full">
           {
             images.map((image, index) => (
-              <div onClick={() => {
+              <div key={index} onClick={() => {
                 setImage(images[index]);
                 hidePhotoLibrary(false)
               }} >
                 <div className="h-24 w-24 cursor-pointer relative">
-                  <Image src={image} alt="Avatar" fill/>
+                  <img src={image} alt="Avatar" fill="true"/>
                 </div>
               </div>
             ))
@@ -41,4 +40,4 @@ function PhotoLibrary({ setImage, hidePhotoLibrary }) {
   )
 }
 
-export default PhotoLibrary;
+export default PhotoLibrary

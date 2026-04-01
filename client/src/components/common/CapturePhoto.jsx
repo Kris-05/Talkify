@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 
-function CapturePhoto({ hide, setImage }) {
+const CapturePhoto = ({ hide, setImage }) => {
 
   const videoRef = useRef(null);
 
@@ -29,7 +29,7 @@ function CapturePhoto({ hide, setImage }) {
   };
 
   return (
-    <div className="absolute h-4/6 w-2/6 top-1/4 left-1/3 bg-gray-900 gap-3 rounded-lg pt-2 flex items-center justify-center">
+    <div className="z-10 absolute h-4/6 w-2/6 top-1/4 left-1/3 bg-gray-900 gap-3 rounded-lg pt-2 flex items-center justify-center">
       <div className="flex flex-col gap-4 w-full items-center justify-center">
         <div className="cursor-pointer flex items-end justify-end" onClick={() => hide(false)}>
           <IoClose className="h-10 w-10 cursor-pointer"/>
@@ -48,4 +48,4 @@ function CapturePhoto({ hide, setImage }) {
   )
 }
 
-export default CapturePhoto;
+export default CapturePhoto

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 
-function ContextMenu({ options, coordinates, contextMenu, setContextMenu }) {
-
+const ContextMenu = ({ options, coordinates, contextMenu, setContextMenu }) => {
   const contextMenuRef = useRef(null);
+  
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if(e.target.id !== "context-opener") {
@@ -25,7 +25,7 @@ function ContextMenu({ options, coordinates, contextMenu, setContextMenu }) {
   }
 
   return (
-    <div className="bg-dropdown-background fixed py-2 z-[100] shadow-xl"
+    <div className="bg-[#233138] fixed py-2 z-[100] shadow-xl"
       ref={contextMenuRef}
       style={{
         top: coordinates.y,
@@ -35,7 +35,7 @@ function ContextMenu({ options, coordinates, contextMenu, setContextMenu }) {
       <ul>
         {
           options.map(({name, callback}) => (
-            <li key={name} onClick={(e) => handleClick(e, callback)} className="px-5 py-2 cursor-pointer hover:bg-background-default-hover">
+            <li key={name} onClick={(e) => handleClick(e, callback)} className="px-5 py-2 cursor-pointer hover:bg-[#202c33]">
               <span className="text-white">
                 {name}
               </span>
@@ -47,4 +47,4 @@ function ContextMenu({ options, coordinates, contextMenu, setContextMenu }) {
   )
 }
 
-export default ContextMenu;
+export default ContextMenu

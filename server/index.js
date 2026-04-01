@@ -1,42 +1,46 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import AuthRoutes from "./routes/AuthRoutes.js"
-import MessageRoutes from "./routes/MessageRoutes.js" 
-import { Server } from "socket.io";
+import express from 'express';
+import cors from 'cors';  
+import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
+import authRoutes from './routes/authRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
+import setupSocket from './socket.js';
+
+// env variables
 dotenv.config();
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 
-app.use(cors());
+// middlewares
+app.use(cors({
+  origin: process.env.ORIGIN, 
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api/auth", AuthRoutes);
-app.use("/api/messages", MessageRoutes);
+// routes
+app.use("/api/auth", authRoutes);
+app.use("/api/contacts", contactRoutes);
 
-const server = app.listen(process.env.PORT, () => {
-  console.log(`Server listening on ${process.env.PORT}`);
+// Prisma will normally connect lazily (only when the first query runs)
+// for manuall connection ->
+// async function connectDB() {
+//   try {
+//     await prisma.$connect();
+//     console.log("Database connected successfully");
+//   } catch (err) {
+//     console.error("Database connection failed:", err);
+//     process.exit(1); // stop app if DB not connected
+//   }
+// }
+
+// start the server
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-  }
-});
-
-global.onlineUsers = new Map(); // Just like map - DST each entry only one time
-io.on("connection", (socket) => {
-  global.chatSocket = socket,
-  socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.id);
-  });
-  socket.on("send-msg", (data) => {
-    const sendUserSocket = onlineUsers.get(data.to);
-    if(sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", {
-        from:data.from,
-        message: data.message
-      })
-    }
-  })
-});
+setupSocket(server)
