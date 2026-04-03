@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 
 const VerifyOTP = () => {
 
-  const { isAuth, setIsAuth, setUser, loading: userLoading } = useAppData();
+  const { isAuth, setIsAuth, setUser, loading: userLoading, fetchChats, fetchUsers } = useAppData();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
@@ -34,7 +34,7 @@ const VerifyOTP = () => {
       return () => clearInterval(interval);
     }
   }, [timer]);
-  console.log(timer);
+  // console.log(timer);
 
   // enter one by one
   const handleInputChange = (idx: number, value: string): void => {
@@ -101,6 +101,8 @@ const VerifyOTP = () => {
 
       setUser(data.user);
       setIsAuth(true);
+      fetchChats();
+      fetchUsers();
     } catch (err: any) {
       setError(err.response.data.message);
     } finally {
