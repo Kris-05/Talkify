@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/login", loginUser);
 router.post("/verify", verifyUser);
 router.get("/profile", isAuth, myProfile);
-router.get("/user/all", isAuth, getAllUsers);
+router.get("/user/allUsers", isAuth, getAllUsers);
 router.get("/user/:id", getAUser);
 router.patch("/update/user", isAuth, updateName);
 

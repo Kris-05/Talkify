@@ -6,7 +6,7 @@ import { upload } from "../middleware/multer.js";
 const router = express.Router();
 
 router.post("/chat/new", isAuthenticated, createNewChat);
-router.get("/chat/all", isAuthenticated, getAllChats);
+router.get("/chat/allChats", isAuthenticated, getAllChats);
 router.post("/message", isAuthenticated, upload.single('file'), sendMessage);
 router.get("/message/:chatId", isAuthenticated, getMessagesByChat);
 

@@ -92,7 +92,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   async function fetchChats() {
     const token = Cookies.get("token");
     try {
-      const { data } = await axios.get(`${chat_service}/api/v2/chat/all`, {
+      const { data } = await axios.get(`${chat_service}/api/v2/chat/allChats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -109,7 +109,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const token = Cookies.get("token");
 
     try {
-      const { data } = await axios.get(`${user_service}/api/v2/user/all`, {
+      const { data } = await axios.get(`${user_service}/api/v2/user/allUsers`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
