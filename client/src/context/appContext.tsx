@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -46,7 +52,7 @@ interface AppContextType {
   setChats: React.Dispatch<React.SetStateAction<Chats[] | null>>;
 }
 
-const AppContext = createContext<AppContextType | undefined>(undefined)
+const AppContext = createContext<AppContextType | undefined>(undefined);
 
 interface AppProviderProps {
   children: ReactNode;
@@ -62,8 +68,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       const token = Cookies.get("token");
       const { data } = await axios.get(`${user_service}/api/v2/profile`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       setUser(data);
@@ -86,15 +92,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   async function fetchChats() {
     const token = Cookies.get("token");
     try {
-      const {data} = await axios.get(`${chat_service}/api/v2/chat/all`, {
+      const { data } = await axios.get(`${chat_service}/api/v2/chat/all`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       setChats(data.chats);
     } catch (err) {
-      console.log(err);      
+      console.log(err);
     }
   }
 
@@ -103,15 +109,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const token = Cookies.get("token");
 
     try {
-      const {data} = await axios.get(`${user_service}/api/v2/user/all`, {
+      const { data } = await axios.get(`${user_service}/api/v2/user/all`, {
         headers: {
-          Authorization : `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       setUsers(data);
     } catch (err) {
-      console.log(err);      
+      console.log(err);
     }
   }
 
@@ -119,18 +125,34 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     fetchUser();
     fetchChats();
     fetchUsers();
-  }, [])
+  }, []);
 
-  return <AppContext.Provider value={{ user, setUser, isAuth, setIsAuth, loading, logoutUser, fetchChats, fetchUsers, chats, users, setChats }}>
-    {children}
-    <Toaster/>
-  </AppContext.Provider>
-}
+  return (
+    <AppContext.Provider
+      value={{
+        user,
+        setUser,
+        isAuth,
+        setIsAuth,
+        loading,
+        logoutUser,
+        fetchChats,
+        fetchUsers,
+        chats,
+        users,
+        setChats,
+      }}
+    >
+      {children}
+      <Toaster />
+    </AppContext.Provider>
+  );
+};
 
-export const useAppData = () : AppContextType => {
-  const context = useContext(AppContext)
-  if(!context) {
+export const useAppData = (): AppContextType => {
+  const context = useContext(AppContext);
+  if (!context) {
     throw new Error("useappdata must be used within app provider");
   }
   return context;
-}
+};

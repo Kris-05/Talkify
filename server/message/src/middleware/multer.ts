@@ -1,7 +1,7 @@
 import multer from "multer";
 // @ts-ignore
 import pkg from "multer-storage-cloudinary";
-import cloudinary from "../config/cloudinary.js";
+import { cloudinary } from "../config/cloudinary.js";
 
 const storage = pkg({
   cloudinary: cloudinary,

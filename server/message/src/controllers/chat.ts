@@ -88,7 +88,7 @@ export const getAllChats = TryCatch(async (req: AuthenticatedRequest, res) => {
 export const sendMessage = TryCatch(async (req: AuthenticatedRequest, res) => {
   const senderId = req.user?._id;
   const { chatId, text } = req.body;
-  const imageFile = req.file;
+  const imageFile = req.file as Express.Multer.File & { url?: string; public_id?: string };
 
   if (!senderId) {
     res.status(401).json({ message: "Unauthorized - Sender User id missing" });
@@ -142,8 +142,8 @@ export const sendMessage = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   if (imageFile) {
     messageData.image = {
-      url: imageFile.path,
-      publicId: imageFile.filename,
+      url: imageFile.url || "",
+      publicId: imageFile.public_id || "",
     };
     messageData.messageType = "image";
     messageData.text = text || "";
