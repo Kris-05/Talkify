@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppProvider } from "@/context/appContext";
+import { SocketProvider } from "@/context/socketContext";
 
 export const metadata: Metadata = {
   title: "Chat App",
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-full flex flex-col">
         <AppProvider>
-          {children}
+          <SocketProvider>
+            {children}
+          </SocketProvider>
         </AppProvider>
       </body>
     </html>

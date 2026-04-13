@@ -48,7 +48,7 @@ const ChatMessages = ({
           <>
             {uniqueMessages.map((e, i) => {
               const isSentByMe = e.sender === currentUser?._id;
-              const uniqueKey = `${e._id}-${i}`;
+              const uniqueKey = `${e._id}-${e.chatId}`;
 
               return (
                 <div key={uniqueKey} className={`flex flex-col gap-1 mt-2 ${isSentByMe ? "items-end" : "items-start"}`}>

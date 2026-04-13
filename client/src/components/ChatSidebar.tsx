@@ -26,6 +26,7 @@ interface ChatSideBarProps {
   setSelectedUser: (userId: string | null) => void;
   handleLogout: () => void;
   createChat: (user: User) => void;
+  onlineUsers: string[];
 }
 
 const ChatSidebar = ({
@@ -40,6 +41,7 @@ const ChatSidebar = ({
   setSelectedUser,
   handleLogout,
   createChat,
+  onlineUsers
 }: ChatSideBarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -111,12 +113,17 @@ const ChatSidebar = ({
                     <div className="flex items-center gap-3">
                       <div className="relative">
                         <UserCircle className="w-6 h-6 text-gray-300" />
+                        {/* online status */}
+                        {
+                          onlineUsers.includes(u._id) && (
+                            <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-gray-900"/>
+                          )
+                        }
                       </div>
-                      {/* online status */}
                       <div className="flex-1 min-w-0">
                         <span className="font-medium text-white">{u.name}</span>
                         <div className="text-xs text-gray-400 mt-0.5">
-                          {/* show online offline text */}
+                          {onlineUsers.includes(u._id)? "Online" : "Offline"}
                         </div>
                       </div>
                     </div>
@@ -126,11 +133,13 @@ const ChatSidebar = ({
           </div>
         ) : chats && chats.length > 0 ? (
           <div className="space-y-2 overflow-y-auto h-full pb-4">
-            {chats.map((chat) => {
-              const latestMessage = chat.chat.latestMessage;
-              const isSelected = selectedUser === chat.chat._id;
-              const isSentByMe = latestMessage?.sender === loggedInUser?._id;
-              const unSeenCount = chat.chat.unseenCount || 0;
+            {chats
+              .filter((chat) => chat && chat.chat && chat.user)
+              .map((chat) => {
+                const latestMessage = chat.chat.latestMessage;
+                const isSelected = selectedUser === chat.chat._id;
+                const isSentByMe = latestMessage?.sender === loggedInUser?._id;
+                const unSeenCount = chat.chat.unseenCount || 0;
 
               return (
                 <button
@@ -147,6 +156,9 @@ const ChatSidebar = ({
                         <UserCircle className="w-7 h-7 text-gray-300" />
                         {/* onlineuser work */}
                       </div>
+                      { onlineUsers.includes(chat.user._id) && (
+                        <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-gray-900"/>
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">

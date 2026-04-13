@@ -71,6 +71,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("fetchUser response:", data);
 
       setUser(data);
       setIsAuth(true);
@@ -97,10 +98,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("fetchChats response:", data);
 
-      setChats(data.chats);
+      // Ensure data.chats exists and is an array
+      setChats(Array.isArray(data?.chats) ? data.chats : []);
     } catch (err) {
       console.log(err);
+      setChats([]); // Default to empty array on error
     }
   }
 
@@ -114,10 +118,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("fetchUsers response:", data);
 
-      setUsers(data);
+      // Ensure data is an array
+      setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.log(err);
+      setUsers([]); // Default to empty array on error
     }
   }
 
